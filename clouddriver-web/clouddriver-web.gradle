@@ -1,10 +1,5 @@
 apply plugin: 'spinnaker.application'
 
-if (gradle.includedCloudProviderProjects.contains(':clouddriver-oracle')) {
-  tasks.startScripts.dependsOn(':clouddriver-oracle:unpackSdk')
-  tasks.startScripts.mustRunAfter(':clouddriver-oracle:unpackSdk')
-}
-
 ext {
   springConfigLocation = System.getProperty('spring.config.additional-location', "${System.getProperty('user.home')}/.spinnaker/")
 }
@@ -30,7 +25,7 @@ dependencies {
   implementation project(":clouddriver-security")
   implementation project(":clouddriver-sql-mysql")
 
-  
+
   compileOnly "org.projectlombok:lombok"
   annotationProcessor "org.projectlombok:lombok"
   testAnnotationProcessor "org.projectlombok:lombok"
@@ -50,7 +45,9 @@ dependencies {
   implementation "org.springframework.boot:spring-boot-starter-actuator"
   implementation "org.springframework.boot:spring-boot-starter-json"
   implementation "org.springframework.boot:spring-boot-starter-web"
-  
+  implementation "org.springframework.cloud:spring-cloud-context"
+  implementation "org.springframework.cloud:spring-cloud-config-server"
+
   testImplementation project(":clouddriver-elasticsearch")
 
   testImplementation "org.springframework.boot:spring-boot-starter-test"
@@ -61,4 +58,3 @@ dependencies {
     implementation project(":${it}")
   }
 }
-
